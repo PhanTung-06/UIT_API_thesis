@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scene Text Recognition</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/static/styles.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container-fluid">
+            <div class="logo">
+                <img src="static/images/UIT.png">
+            </div>
+            <div class="title">
+                <h5>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</h5>
+                <h5>ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH</h5>
+                <h1 style="margin-top: 50px; margin-bottom: 50px;">KHÓA LUẬN TỐT NGHIỆP</h1>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container-fluid info">
+            <h5>ĐỀ TÀI: MÔ HÌNH NGÔN NGỮ THỊ GIÁC CHO BÀI TOÁN NHẬN DẠNG CHỮ TRONG KHUNG CẢNH</h5>
+            <div class="author">
+                <p>GVHD: NGUYỄN VINH TIỆP</p>
+                <p>SINH VIÊN 1: HUỲNH THỊ MỸ DUYÊN</p>
+                <p>SINH VIÊN 2: PHAN TUNG</p>
+            </div>
+        </div>
+        
+        <div class="container-fluid">
+            <div class="predict">
+                <div class="result">
+                    <h5>Kết quả xử lý:</h5>
+                    <img class="uploaded_image" src="data:image/png;base64, {{ img_result }}">
+                </div>
+                <div class="choose-file">
+                    <h6>Chọn ảnh khác để tiếp tục thử nghiệm</h6>
+                    <form action="/predict" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <input name="img_file" type="file" multiple>
+                            <input class = "submit" type="submit">
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <script>
+        /*Size is  set in pixels... supports being written as: '250px' */
+var magnifierSize = 250;
+
+/*How many times magnification of image on page.*/
+var magnification = 2;
+
+function magnifier() {
+
+  this.magnifyImg = function(ptr, magnification, magnifierSize) {
+    var $pointer;
+    if (typeof ptr == "string") {
+      $pointer = $(ptr);
+    } else if (typeof ptr == "object") {
+      $pointer = ptr;
+    }
+    
+    if(!($pointer.is('img'))){
+      alert('Object must be image.');
+      return false;
+    }
+
+    magnification = +(magnification);
+
+    $pointer.hover(function() {
+      $(this).css('cursor', 'none');
+      $('.magnify').show();
+      //Setting some variables for later use
+      var width = $(this).width();
+      var height = $(this).height();
+      var src = $(this).attr('src');
+      var imagePos = $(this).offset();
+      var image = $(this);
+
+      if (magnifierSize == undefined) {
+        magnifierSize = '150px';
+      }
+
+      $('.magnify').css({
+        'background-size': width * magnification + 'px ' + height * magnification + "px",
+        'background-image': 'url("' + src + '")',
+        'width': magnifierSize,
+        'height': magnifierSize
+      });
+
+      //Setting a few more...
+      var magnifyOffset = +($('.magnify').width() / 2);
+      var rightSide = +(imagePos.left + $(this).width());
+      var bottomSide = +(imagePos.top + $(this).height());
+
+      $(document).mousemove(function(e) {
+        if (e.pageX < +(imagePos.left - magnifyOffset / 6) || e.pageX > +(rightSide + magnifyOffset / 6) || e.pageY < +(imagePos.top - magnifyOffset / 6) || e.pageY > +(bottomSide + magnifyOffset / 6)) {
+          $('.magnify').hide();
+          $(document).unbind('mousemove');
+        }
+        var backgroundPos = "" - ((e.pageX - imagePos.left) * magnification - magnifyOffset) + "px " + -((e.pageY - imagePos.top) * magnification - magnifyOffset) + "px";
+        $('.magnify').css({
+          'left': e.pageX - magnifyOffset,
+          'top': e.pageY - magnifyOffset,
+          'background-position': backgroundPos
+        });
+      });
+    }, function() {
+
+    });
+  };
+
+  this.init = function() {
+    $('body').prepend('<div class="magnify"></div>');
+  }
+
+  return this.init();
+}
+
+var magnify = new magnifier();
+magnify.magnifyImg('img', magnification, magnifierSize);
+    </script>
+</body>
+</html>

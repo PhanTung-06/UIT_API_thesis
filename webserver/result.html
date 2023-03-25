@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scene Text Recognition</title>
+   
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
+    <!-- <link rel="stylesheet" href="/static/styles.css"> -->
+    <link rel="stylesheet" href="{{ url_for('static', path='/styles.css') }}">
+</head>
+<body>
+    <header>
+        <div class="container-fluid">
+            <div class="logo">
+                <img src="static/images/UIT.png">
+            </div>
+            <div class="title">
+                <h5>TRƯỜNG ĐẠI HỌC CÔNG NGHỆ THÔNG TIN</h5>
+                <h5>ĐẠI HỌC QUỐC GIA THÀNH PHỐ HỒ CHÍ MINH</h5>
+                <h1 style="margin-top: 50px; margin-bottom: 50px;">KHÓA LUẬN TỐT NGHIỆP</h1>
+            </div>
+        </div>
+    </header>
+    <main>
+        <div class="container-fluid info">
+            <h5>ĐỀ TÀI: MÔ HÌNH NGÔN NGỮ THỊ GIÁC CHO BÀI TOÁN NHẬN DẠNG CHỮ TRONG KHUNG CẢNH</h5>
+            <div class="author">
+                <p>GVHD: NGUYỄN VINH TIỆP</p>
+                <p>SINH VIÊN 1: HUỲNH THỊ MỸ DUYÊN</p>
+                <p>SINH VIÊN 2: PHAN TUNG</p>
+            </div>
+        </div>
+        
+        <div class="container-fluid">
+            <div class="predict">
+                <div class="result">
+                    <h5>Kết quả xử lý:</h5>
+                    <img class="uploaded_image" src="data:image/png;base64, {{ img_result }}">
+                </div>
+                <div class="choose-file">
+                    <h6>Chọn ảnh khác để tiếp tục thử nghiệm</h6>
+                    <form action="/predict" enctype="multipart/form-data" method="post">
+                        <div class="form-group">
+                            <input name="img_file" type="file" multiple>
+                            <input class = "submit" type="submit">
+                        </div>
+                    </form>
+                </div>
+                
+            </div>
+        </div>
+    </main>
+
+</body>
+</html>

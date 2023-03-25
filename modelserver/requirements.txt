@@ -1,0 +1,10 @@
+redis
+scikit-image
+pillow
+numpy
+ipdb
+jupyter
+ipython
+opencv-python
+pandas
+python-multipart
